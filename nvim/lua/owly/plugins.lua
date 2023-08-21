@@ -42,10 +42,15 @@ packer.init({
 return packer.startup(function(use)
   use { "wbthomason/packer.nvim", commit = "6afb67460283f0e990d35d229fd38fdc04063e0a" } -- Have packer manage itself
 	-- Automatically set up your configuration after cloning packer.nvim
-   use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.1',
-    -- or                            , branch = '0.1.x',
-    requires = { {'nvim-lua/plenary.nvim'} }
+  use {
+    "nvim-telescope/telescope.nvim", tag = '0.1.1',
+    requires = {
+      { "nvim-telescope/telescope-live-grep-args.nvim" },
+      {'nvim-lua/plenary.nvim'},
+    },
+    config = function()
+      require("telescope").load_extension("live_grep_args")
+    end
   }
 
   use({
@@ -56,6 +61,13 @@ return packer.startup(function(use)
       vim.cmd('colorscheme rose-pine')
     end
   })
+
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+        require('Comment').setup()
+    end
+  }
 
   use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
   use('theprimeagen/harpoon')
